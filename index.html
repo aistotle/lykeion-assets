@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Подпись Lykeion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;500;600&display=swap">
+<style>
+/* Две колонки: слева форма, справа превью и кнопки; на телефоне — одна колонка */
+:root{
+  --bg:#F4F3EE; --surface:#FFFFFF; --ink:#14234B; --muted:#5A6480; --gold:#B8862F; --line:#DEDCD2; --ok:#2F7A4D;
+  --display:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --body:"Manrope",-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root{--bg:#0E1424;--surface:#18203A;--ink:#E9ECF5;--muted:#A6AEC6;--gold:#D9AC5A;--line:#2B3556;--ok:#6CC28F;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--body)}
+.wrap{max-width:1040px;margin:0 auto;padding:32px max(16px,env(safe-area-inset-right)) 48px max(16px,env(safe-area-inset-left))}
+header{display:flex;align-items:center;gap:14px;margin-bottom:24px}
+header img{width:52px;height:51px}
+h1{font:700 30px/1.1 var(--display);margin:0;letter-spacing:.01em;text-wrap:balance}
+.sub{color:var(--muted);margin:2px 0 0}
+.grid{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:820px){.grid{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px}
+form{display:grid;gap:14px}
+label{display:grid;gap:5px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+input{font:15px var(--body);color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:6px;padding:10px 12px;width:100%}
+input:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:var(--gold)}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
+.preview{background:#FFFFFF;border:1px solid var(--line);border-radius:8px;padding:22px;overflow-x:auto}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+button{font:600 14px var(--body);border-radius:6px;padding:11px 16px;cursor:pointer;border:1px solid var(--ink);background:var(--ink);color:var(--surface)}
+button.alt{background:transparent;color:var(--ink)}
+button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.status{min-height:22px;margin-top:10px;font-size:14px;color:var(--ok)}
+.how{margin-top:28px}
+.how h2{font:700 22px/1.2 var(--display);margin:0 0 12px}
+.clients{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px;align-items:start}
+details{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 16px}
+summary{cursor:pointer;font-weight:600}
+details ol{margin:10px 0 2px;padding-left:20px;display:grid;gap:6px;color:var(--ink)}
+.btn-name{font-weight:600;color:var(--gold)}
+textarea{position:fixed;left:-9999px;top:0}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="lykeion-logo-v2.png" alt="">
+    <div>
+      <h1>Подпись Lykeion</h1>
+      <p class="sub">Заполни поля — подпись соберётся сама. Скопируй и вставь в свою почту.</p>
+    </div>
+  </header>
+
+  <div class="grid">
+    <div class="panel">
+      <form id="f" autocomplete="on">
+        <label>Имя и фамилия<input id="name" value="Vladislav Zolotarev" autocomplete="name"></label>
+        <label>Должность<input id="title" value="Enterprise AI Architect" autocomplete="organization-title"></label>
+        <label>Мобильный<input id="phone" value="+7 916 888 44 93" inputmode="tel" autocomplete="tel"></label>
+        <label>Email<input id="email" value="vladislav@lykeion.studio" inputmode="email" autocomplete="email"></label>
+        <label>Нижняя строка<input id="tagline" value="AI Education Product"></label>
+      </form>
+    </div>
+
+    <div>
+      <p class="eyebrow">Так увидят получатели</p>
+      <div class="preview" id="preview"></div>
+      <div class="btns">
+        <button type="button" id="copySig">Скопировать подпись</button>
+        <button type="button" class="alt" id="copyCode">Скопировать код HTML</button>
+        <button type="button" class="alt" id="copyText">Скопировать текстом</button>
+      </div>
+      <div class="status" id="status" role="status" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <section class="how">
+    <h2>Куда вставить</h2>
+    <div class="clients">
+      <details open><summary>nic.ru (RU-CENTER)</summary><ol>
+        <li>Нажми <span class="btn-name">Скопировать код HTML</span>.</li>
+        <li>Почта → Настройки → Подпись, переключи редактор в режим «Код».</li>
+        <li>Вставь код и сохрани.</li></ol></details>
+      <details><summary>Outlook (компьютер и веб)</summary><ol>
+        <li>Нажми <span class="btn-name">Скопировать подпись</span>.</li>
+        <li>Компьютер: Файл → Параметры → Почта → Подписи. Веб и новый Outlook: Настройки → Учётные записи → Подписи.</li>
+        <li>Создай подпись, вставь (Ctrl+V) и сохрани.</li></ol></details>
+      <details><summary>Gmail (в браузере)</summary><ol>
+        <li>Нажми <span class="btn-name">Скопировать подпись</span>.</li>
+        <li>Настройки (шестерёнка) → Все настройки → Общие → Подпись → Создать.</li>
+        <li>Вставь, внизу страницы нажми «Сохранить изменения».</li></ol></details>
+      <details><summary>Mail.ru и VK WorkMail</summary><ol>
+        <li>Нажми <span class="btn-name">Скопировать подпись</span>.</li>
+        <li>Открой настройки почты в браузере → раздел с подписью.</li>
+        <li>Вставь в поле подписи и сохрани. Если логотип не вставился — добавь его кнопкой «Картинка» по ссылке ниже.</li></ol></details>
+      <details><summary>iPhone и iPad (Почта)</summary><ol>
+        <li>Открой эту страницу в Safari, нажми <span class="btn-name">Скопировать подпись</span>.</li>
+        <li>Настройки → Приложения → Почта → Подпись (iOS 17 и старше: Настройки → Почта → Подпись).</li>
+        <li>Вставь. Если оформление пропало — сразу встряхни телефон и нажми «Отменить».</li></ol></details>
+      <details><summary>Android (Gmail)</summary><ol>
+        <li>Нажми <span class="btn-name">Скопировать текстом</span>.</li>
+        <li>Gmail → меню → Настройки → твой аккаунт → Подпись в мобильном приложении.</li>
+        <li>Вставь. В приложении Gmail подпись только текстовая, логотипа там не будет.</li></ol></details>
+    </div>
+    <p class="sub" style="margin-top:14px">Ссылка на логотип, если почта просит картинку отдельно:<br>
+      <span id="logoUrl" style="word-break:break-all"></span></p>
+  </section>
+</div>
+<textarea id="buf" aria-hidden="true" tabindex="-1"></textarea>
+
+<script>
+const LOGO="https://raw.githubusercontent.com/aistotle/lykeion-assets/main/lykeion-logo-v2.png";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const val=id=>$(id).value.trim();
+
+function buildHtml(){
+  const name=esc(val('name')), title=esc(val('title')), phone=val('phone'), email=val('email'), tag=esc(val('tagline'));
+  const tel=phone.replace(/[^\d+]/g,'');
+  let contact='';
+  if(phone) contact+='mob: <a href="tel:'+esc(tel)+'" style="color:#14234B;text-decoration:none;">'+esc(phone)+'</a>';
+  if(email) contact+=(contact?'<br>':'')+'<a href="mailto:'+esc(email)+'" style="color:#1F4E9C;text-decoration:none;">'+esc(email)+'</a>';
+  return '<table cellpadding="0" cellspacing="0" border="0" style="font-family:Georgia,\'Times New Roman\',serif;color:#14234B;"><tr>'+
+    '<td style="padding-right:14px;vertical-align:middle;"><img src="'+LOGO+'" alt="Lykeion Development Studio" width="96" height="94" style="display:block;width:96px;height:94px;border:0;"></td>'+
+    '<td style="border-left:2px solid #C9973F;padding-left:14px;vertical-align:middle;">'+
+    (name?'<div style="font-size:16px;font-weight:bold;">'+name+'</div>':'')+
+    (title?'<div style="font-family:Arial,sans-serif;font-size:12px;letter-spacing:1px;color:#C9973F;text-transform:uppercase;margin:2px 0 6px;">'+title+'</div>':'')+
+    (contact?'<div style="font-family:Arial,sans-serif;font-size:12px;line-height:18px;">'+contact+'</div>':'')+
+    (tag?'<div style="font-size:13px;font-style:italic;margin-top:6px;color:#C9973F;">'+tag+'</div>':'')+
+    '</td></tr></table>';
+}
+function buildText(){
+  return [val('name'),val('title'),val('phone')?'mob: '+val('phone'):'',val('email'),val('tagline'),'Lykeion Development Studio']
+    .filter(Boolean).join('\n');
+}
+function render(){$('preview').innerHTML=buildHtml();}
+function say(msg){$('status').textContent=msg;clearTimeout(say.t);say.t=setTimeout(()=>$('status').textContent='',4000);}
+
+function legacyCopyText(text){
+  const b=$('buf');b.value=text;b.select();
+  try{return document.execCommand('copy');}catch(e){return false;}
+}
+async function copyPlain(text){
+  try{await navigator.clipboard.writeText(text);return true;}catch(e){return legacyCopyText(text);}
+}
+async function copyRich(){
+  const html=buildHtml(), text=buildText();
+  try{
+    if(window.ClipboardItem&&navigator.clipboard&&navigator.clipboard.write){
+      await navigator.clipboard.write([new ClipboardItem({
+        'text/html':new Blob([html],{type:'text/html'}),
+        'text/plain':new Blob([text],{type:'text/plain'})})]);
+      return true;
+    }
+  }catch(e){}
+  // запасной путь: выделяем готовую подпись и копируем как есть
+  const sel=window.getSelection(), r=document.createRange();
+  r.selectNodeContents($('preview'));sel.removeAllRanges();sel.addRange(r);
+  let ok=false;try{ok=document.execCommand('copy');}catch(e){}
+  sel.removeAllRanges();return ok;
+}
+
+['name','title','phone','email','tagline'].forEach(id=>$(id).addEventListener('input',render));
+$('f').addEventListener('submit',e=>e.preventDefault());
+$('copySig').addEventListener('click',async()=>say(await copyRich()?'Подпись скопирована — вставь её в настройках почты.':'Не получилось скопировать. Выдели подпись в рамке вручную и скопируй.'));
+$('copyCode').addEventListener('click',async()=>say(await copyPlain(buildHtml())?'Код скопирован — вставь его в режиме «Код» / HTML.':'Не получилось скопировать код.'));
+$('copyText').addEventListener('click',async()=>say(await copyPlain(buildText())?'Текст скопирован.':'Не получилось скопировать текст.'));
+$('logoUrl').textContent=LOGO;
+render();
+</script>
+</body>
+</html>
