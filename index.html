@@ -177,8 +177,12 @@ function textCe(){
     '30 Kommunalniy proezd, bldg. 30, Khimki,','Moscow Region, 141590, Russia','Countries · Routes · Opportunities · People'].filter(Boolean).join('\n');
 }
 const PH={lyk:'ivan@lykeion.studio',ce:'i.petrov@cargo-express.pro'};
+const FIELDS=['name','title','office','ext','phone','email','tagline'];
+const STORE={lyk:{},ce:{office:'+7 495 120 66 69'}};
 function setCo(k){
   if(k===CO)return;
+  FIELDS.forEach(id=>STORE[CO][id]=$(id).value);
+  FIELDS.forEach(id=>{const v=STORE[k][id];if(v!==undefined)$(id).value=v;else if(id!=='tagline')$(id).value='';});
   $('email').placeholder=PH[k];
   CO=k;document.body.classList.toggle('ce',k==='ce');
   document.querySelectorAll('.co button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.co===k));
